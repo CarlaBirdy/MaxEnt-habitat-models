@@ -126,20 +126,19 @@ df_cumhist <- df %>%
 colour<- c(rep("red",20), rep("orange",30), rep("yellow",30))
 
 df2 <- data.frame(`Climate Scenario` = rep("SSP 1 - RCP 2.6",5), Taxon = c("amphibians","birds","mammals","plants","reptiles"), mean_coverted = c(40,80,30,1600, 70), count = c(99,99,99,99,99))
-sspColPalHist <- c('#cb503a','#df9239','#114a76','#2f8fce')
+sspColPalHist <- c('#2f8fce','#114a76','#df9239','#cb503a')
 
-ggplot(df_cumhist, aes(x = rounded, y = count,, fill=`Climate scenario`, color=`Climate scenario`)) +
+ggplot(df_cumhist, aes(x = rounded, y = count, fill=`Climate scenario`, color=`Climate scenario`)) +
   geom_histogram(stat = "identity") +
   labs(x = "Rounded Value", y = "Count") +
-  facet_wrap(`Climate scenario`~Year, scales="free_y", ncol=4, strip.position = "top")+
+  facet_grid(Year~`Climate scenario`)+
   xlim(-100,200)+
   geom_vline(xintercept=0, color = "black")+
-  #scale_fill_manual(values=sspColPal,name = "Climate scenario", labels = c("SSP 1 - RCP 2.6", "SSP 2 - RCP 4.5","SSP 3 - RCP 7.0","SSP 5 - RCP 8.5"))+
-  #scale_colour_manual(values=sspColPal,name = "Climate scenario",guide="none")+	
+  scale_fill_manual(values=sspColPalHist,name = "Climate scenario", labels = c("SSP 1 - RCP 2.6", "SSP 2 - RCP 4.5","SSP 3 - RCP 7.0","SSP 5 - RCP 8.5"))+
+  scale_colour_manual(values=sspColPalHist,name = "Climate scenario",guide="none")+	
   xlab("% change of habitat suitability") + 
   ylab("Number of species")+
-  theme_bw() +
-  theme(strip.placement = "outside")
+  theme_bw() 
 
 ggplot(df_cumhist)+
   geom_histogram(aes(x=mean_coverted, fill=`Climate Scenario order`, color=`Climate Scenario order`),position="identity", alpha=0.25, bins = 30)+

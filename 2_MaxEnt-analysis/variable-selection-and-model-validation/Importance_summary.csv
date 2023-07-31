@@ -1,0 +1,19 @@
+"","Variable","n","mean","median"
+"1","bioclim_01 permutation importance",193294.9852,18.2113232711513,10.9546
+"2","bioclim_15 permutation importance",140100.3889,13.1995844073865,5.8509
+"3","bioclim_05 permutation importance",105296.1771,9.92049906726964,4.2829
+"4","bioclim_12 permutation importance",114740.8156,10.8103274543056,4.0535
+"5","bioclim_14 permutation importance",89759.3004,8.45668931599774,3.2609
+"6","bioclim_06 permutation importance",91931.3646,8.6613307518372,2.9971
+"7","bioclim_13 permutation importance",82500.2171,7.77277342189561,2.13345
+"8","pHc permutation importance",45691.3937,4.30482322404372,1.8002
+"9","SOC permutation importance",32414.8727,3.05397330883738,1.1674
+"10","ECE permutation importance",55284.7064,5.20865897870737,1.02485
+"11","SLT permutation importance",22337.2845,2.10451144714528,0.8679
+"12","elev permutation importance",16716.3104,1.57493031844733,0.64035
+"13","SND permutation importance",17019.0439,1.6034524119088,0.5698
+"14","DES permutation importance",13644.2721,1.28549765404183,0.45285
+"15","CLY permutation importance",10063.8068,0.948163444507255,0.36055
+"16","slope_relief permutation importance",10568.5194,0.995715036743923,0.3298
+"17","BDW permutation importance",12366.3349,1.16509656114566,0.32685
+"18","AWC permutation importance",7270.2165,0.684964810627473,0.2198
