@@ -1,4 +1,4 @@
-# MaxEnt modelling
+![image](https://github.com/CarlaBirdy/MaxEnt-habitat-models/assets/19372004/8ba863c9-e65a-4498-a355-4403fb01ed21)# MaxEnt modelling
 This folder contains the code and example shell files for the MaxEnt models based on Graham, et al. (2019). This analysis was led by Carla Archibald and assisted by Erin Graham, David Summers and Brett Bryan based on MaxEnt models fitted as a part of the CliMAS project by Erin Graham and JCU https://www.jcu.edu.au/offline/climas. The original CliMAS analysis can be found here https://github.com/erinmgraham/NRM. This analysis was done as a part of the @land-use-trade-offs project.
 
 ## MaxEnt
@@ -7,6 +7,11 @@ The maximum entropy method (henceforth, MaxEnt) is a method specifically for mod
 Graham, et al. (2019) fitted climate niche models in MaxEnt Version 3.4.1 first with 10 replicates validated using a cross-validation method. See code here, https://github.com/erinmgraham/NRM/blob/master/01.nrm.model.R 
 
 MaxEnt models were fitted as a part of the CliMAS project by Erin Graham and JCU https://www.jcu.edu.au/offline/climas. We used these MaxEnt models to project how four climate change scenarios drawn from the CMIP6 suite of climate models influence the climatic niches of Australian species. We used MaxEnt to predict the climate niche of 1,303 terrestrial vertebrates and 9,252 vascular plants from a historical baseline (1990) out to 2090 under four climate scenarios using 8 General Circulation Models.
+
+For the model validation, the AUC value was calculated as a part of the MaxEnt procedure, and the Boyce Index was calculated post hoc. Both values are summarised in the manuscript. 
+
+![bci_auc_figure](https://github.com/CarlaBirdy/MaxEnt-habitat-models/assets/19372004/2038e74b-8b1b-4b80-9c1e-0e6d823d1a96)
+Figure: Scatter plot between AUC and BI values for species models
 
 ## Workflow
 MaxEnt models were projected onto the future climate scenarios SPP1-RCP2.6, SSP2- RCP 4.5, SSP3- RCP 3.7 and SSP5- RCP 8.5, 8 GCMs, 1 past time-period (1985) and 4 future time-periods (2030, 2050, 2070, 2090). For each species, climate scenario and time-period we calculated an ensemble average (mean) climate suitability and the standard deviation (to capture model variance) across 8 GCMs. 
