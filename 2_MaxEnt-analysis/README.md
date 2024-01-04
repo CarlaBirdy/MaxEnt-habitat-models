@@ -6,14 +6,9 @@ The maximum entropy method (henceforth, MaxEnt) is a method specifically for mod
 
 Graham, et al. (2019) fitted climate niche models in MaxEnt Version 3.4.1 first with 10 replicates validated using a cross-validation method. See code here, https://github.com/erinmgraham/NRM/blob/master/01.nrm.model.R 
 
+## Workflow
 MaxEnt models were fitted as a part of the CliMAS project by Erin Graham and JCU https://www.jcu.edu.au/offline/climas. We used these MaxEnt models to project how four climate change scenarios drawn from the CMIP6 suite of climate models influence the climatic niches of Australian species. We used MaxEnt to predict the climate niche of 1,303 terrestrial vertebrates and 9,252 vascular plants from a historical baseline (1990) out to 2090 under four climate scenarios using 8 General Circulation Models.
 
-For the model validation, the AUC value was calculated as a part of the MaxEnt procedure, and the Boyce Index was calculated post hoc. Both values are summarised in the manuscript. 
-
-![Figure_3](https://github.com/CarlaBirdy/MaxEnt-habitat-models/assets/19372004/87e81dcf-476a-4dce-8968-d1f6bba92936)
-Figure: Scatter plot between AUC and BI values for species models
-
-## Workflow
 MaxEnt models were projected onto the future climate scenarios SPP1-RCP2.6, SSP2- RCP 4.5, SSP3- RCP 3.7 and SSP5- RCP 8.5, 8 GCMs, 1 past time-period (1985) and 4 future time-periods (2030, 2050, 2070, 2090). For each species, climate scenario and time-period we calculated an ensemble average (mean) climate suitability and the standard deviation (to capture model variance) across 8 GCMs. 
 
 R statistical software was used to write one shell file per specie. Species shell files were then run on a high-performance cluster. The majority of this analysis was submitted to a Linux (virtual machine) cluster computer using a SLURM Queue Manager. Each Server Node has: E5-2680v3 @2.50Ghz (or slightly better), 12 Cores, 70Gb.
@@ -21,6 +16,12 @@ R statistical software was used to write one shell file per specie. Species shel
 <img width="883" alt="Figure_1" src="https://github.com/CarlaBirdy/MaxEnt-habitat-models/assets/19372004/ca221048-2a76-4eae-aaee-f4593737e4da">
 
 Figure: Schematic of the workflow
+
+## Variable selection and model validation
+Variable selection and model validation using AUC were calculated and assessed as a part of the MaxEnt procedure. The Boyce Index was calculated post hoc. Both values are summarised in the manuscript. 
+
+![Figure_3](https://github.com/CarlaBirdy/MaxEnt-habitat-models/assets/19372004/87e81dcf-476a-4dce-8968-d1f6bba92936)
+Figure: Scatter plot between AUC and BI values for species models
 
 ## Key References
 1.Elith, J. et al. (2011) ‘A statistical explanation of MaxEnt for ecologists’, Diversity and Distributions, 17(1), pp. 43–57. doi: 10.1111/j.1472-4642.2010.00725.x.
