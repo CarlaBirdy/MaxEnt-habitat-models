@@ -1,4 +1,4 @@
-![image](https://github.com/CarlaBirdy/MaxEnt-habitat-models/assets/19372004/8ba863c9-e65a-4498-a355-4403fb01ed21)# MaxEnt modelling
+# MaxEnt modelling
 This folder contains the code and example shell files for the MaxEnt models based on Graham, et al. (2019). This analysis was led by Carla Archibald and assisted by Erin Graham, David Summers and Brett Bryan based on MaxEnt models fitted as a part of the CliMAS project by Erin Graham and JCU https://www.jcu.edu.au/offline/climas. The original CliMAS analysis can be found here https://github.com/erinmgraham/NRM. This analysis was done as a part of the @land-use-trade-offs project.
 
 ## MaxEnt
@@ -17,6 +17,9 @@ Figure: Scatter plot between AUC and BI values for species models
 MaxEnt models were projected onto the future climate scenarios SPP1-RCP2.6, SSP2- RCP 4.5, SSP3- RCP 3.7 and SSP5- RCP 8.5, 8 GCMs, 1 past time-period (1985) and 4 future time-periods (2030, 2050, 2070, 2090). For each species, climate scenario and time-period we calculated an ensemble average (mean) climate suitability and the standard deviation (to capture model variance) across 8 GCMs. 
 
 R statistical software was used to write one shell file per specie. Species shell files were then run on a high-performance cluster. The majority of this analysis was submitted to a Linux (virtual machine) cluster computer using a SLURM Queue Manager. Each Server Node has: E5-2680v3 @2.50Ghz (or slightly better), 12 Cores, 70Gb.
+
+<img width="883" alt="Figure_1" src="https://github.com/CarlaBirdy/MaxEnt-habitat-models/assets/19372004/ca221048-2a76-4eae-aaee-f4593737e4da">
+Figure: Schematic of the workflow
 
 ## Key References
 1.Elith, J. et al. (2011) ‘A statistical explanation of MaxEnt for ecologists’, Diversity and Distributions, 17(1), pp. 43–57. doi: 10.1111/j.1472-4642.2010.00725.x.
