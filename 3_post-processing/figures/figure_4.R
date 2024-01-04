@@ -1,5 +1,5 @@
 ############################################################################################
-#    Figure 4: Species level summary for maxent models
+#    Figure 4: High res view figure
 #    By: Carla Archibald
 #    Date: 01/03/23
 ############################################################################################
@@ -21,88 +21,150 @@ library(ggmap)      # Load ggmap for working with Google maps and ggplot2
 library(ggpubr)     # Load ggpubr for combining ggplot2 plots
 library(ggpattern)  # Load ggpattern for adding pattern fills in ggplot2
 
-# 2. set directories#####
-
 current_directory <- getwd()  # Get the current working directory, this should be the parent directory which contains all of the taxonomic folders
 current_directory             # Print the current working directory path
 
-# select which species to map
-taxa <- "mammals"# "amphibians" "birds", "reptiles", "mammals", "plants"
-species <-  "Macropus_rufus" # species name
+# 2. read in data #####
 
-# set file paths
+# General summary using one species as an example
+# current
+# 4 future time periods
+
+taxa <- "birds" # Set the taxa category to "birds" (you can change it to other categories like "amphibians," "reptiles," "mammals," or "plants")
+species <- "Casuarius_casuarius" # Set the species folder to "Casuarius_casuarius" (you can choose other species folders)
+
+# Define file paths
 sp_wd <- paste0(current_directory,"/",taxa,"/",species)
 out_wd <- current_directory
- 
-# 3. read in data #####
 
-# Read raster data for the MAX prediction of future climate projections for different scenarios and time periods
-future2090_ssp126_max <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp126_2090_AUS_5km_EnviroSuit_max.tif"))
-names(future2090_ssp126_max) <- "RCP1-SSP2.6_Maximum"
-future2090_ssp245_max <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp245_2090_AUS_5km_EnviroSuit_max.tif"))
-names(future2090_ssp245_max) <- "RCP2-SSP4.5_Maximum"
-future2090_ssp370_max <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp370_2090_AUS_5km_EnviroSuit_max.tif"))
-names(future2090_ssp370_max) <- "RCP3-SSP7.0_Maximum"
-future2090_ssp585_max <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp585_2090_AUS_5km_EnviroSuit_max.tif"))
-names(future2090_ssp585_max) <- "RCP5-SSP8.5_Maximum"
+# Read shapefile state data
+# Download the Australia state and territory shapefile: https://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/1259.0.30.001July%202011?OpenDocument
+# Put the file in your currest directory
+states <- st_read(paste0(current_directory,"STE11aAust.shp"))
+states_gda94 <- st_set_crs(states, st_crs(4283))
+states_gda94_sub <- states_gda94 %>%
+  dplyr::filter(STATE_NAME == "Queensland")
 
-# Read raster data for the MEAN prediction of future climate projections for different scenarios and time periods
-future2090_ssp126_mean <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp126_2090_AUS_5km_EnviroSuit.tif"))
-names(future2090_ssp126_mean) <- "RCP1-SSP2.6_Mean"
-future2090_ssp245_mean <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp245_2090_AUS_5km_EnviroSuit.tif"))
-names(future2090_ssp245_mean) <- "RCP2-SSP4.5_Mean"
-future2090_ssp370_mean <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp370_2090_AUS_5km_EnviroSuit.tif"))
-names(future2090_ssp370_mean) <- "RCP3-SSP7.0_Mean"
-future2090_ssp585_mean <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp585_2090_AUS_5km_EnviroSuit.tif"))
-names(future2090_ssp585_mean) <- "RCP5-SSP8.5_Mean"
+# Read raster data for historic and future time periods
+# Load the raster data for the historic baseline of a species at 5km resolution in Australia.
+historic <- raster(paste0(sp_wd,"/",species,"_historic_baseline_1990_AUS_5km_EnviroSuit.tif"))
 
-# Read raster data for the MIN prediction of future climate projections for different scenarios and time periods
-future2090_ssp126_min <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp126_2090_AUS_5km_EnviroSuit_min.tif"))
-names(future2090_ssp126_min) <- "RCP1-SSP2.6_Minimum"
-future2090_ssp245_min <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp245_2090_AUS_5km_EnviroSuit_min.tif"))
-names(future2090_ssp245_min) <- "RCP2-SSP4.5_Minimum"
-future2090_ssp370_min <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp370_2090_AUS_5km_EnviroSuit_min.tif"))
-names(future2090_ssp370_min) <- "RCP3-SSP7.0_Minimum"
-future2090_ssp585_min <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp585_2090_AUS_5km_EnviroSuit_min.tif"))
-names(future2090_ssp585_min) <- "RCP5-SSP8.5_Minimum"
+# Convert the raster data to stars format.
+historic_subset_stars <- st_as_stars(historic)
 
-# Stack all the raster layers together
-stackRas <- stack(future2090_ssp126_min,future2090_ssp245_min,future2090_ssp370_min,future2090_ssp585_min,
-                  future2090_ssp126_mean,future2090_ssp245_mean,future2090_ssp370_mean,future2090_ssp585_mean,
-                  future2090_ssp126_max,future2090_ssp245_max,future2090_ssp370_max,future2090_ssp585_max)
+# Define a new coordinate reference system (CRS) for the raster data as longlat with GRS80 ellipsoid.
+new_crs <- st_crs("+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs")
 
-# Set the Coordinate Reference System (CRS) for the stacked raster
-crs(stackRas) <- CRS("+init=epsg:4283")
+# Transform the historic raster data to the new CRS.
+historic_subset_stars_proj <- st_transform(historic_subset_stars, new_crs)
 
-# 4. data manipulation and mapping
+# Load raster data for future time periods (2030, 2050, 2070, 2090) at 5km resolution in Australia.
+future2030 <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp585_2030_AUS_5km_EnviroSuit.tif"))
+future2050 <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp585_2050_AUS_5km_EnviroSuit.tif"))
+future2070 <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp585_2070_AUS_5km_EnviroSuit.tif"))
+future2090 <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp585_2090_AUS_5km_EnviroSuit.tif"))
 
-# Convert the stacked raster to a long-format data frame, removing NA values
-raster_long_df <-
-  as.data.frame(stackRas, xy = TRUE) %>%
-  na.omit()%>%
-  pivot_longer(
-    c(-x, -y),
-    names_to = "map",
-    values_to = "suitability")%>%
-  dplyr::mutate(scenario = str_replace(map, "_.*", "")) %>%
-  dplyr::mutate(projection = str_remove(map, ".*_"))
-  
-# Create a plot using ggplot to visualize the data
+# Convert the future raster data to stars format and transform them to the new CRS.
+future2030_stars <- st_as_stars(future2030)
+future2030_stars_proj <- st_transform(future2030_stars, new_crs)
+
+future2050_stars <- st_as_stars(future2050)
+future2050_stars_proj <- st_transform(future2050_stars, new_crs)
+
+future2070_stars <- st_as_stars(future2070)
+future2070_stars_proj <- st_transform(future2070_stars, new_crs)
+
+future2090_stars <- st_as_stars(future2090)
+future2090_stars_proj <- st_transform(future2090_stars, new_crs)
+
+# 3. Map data #####
+
+# Historical Suitability Plot
 ggplot() +
-  geom_raster(data = raster_long_df, aes(x = x, y = y, fill = suitability)) +
-  facet_grid(projection ~ scenario, switch = "y") +
-  coord_equal() +
+  geom_stars(
+    data = historic_subset_stars_proj,
+    aes(fill = Casuarius_casuarius_historic_baseline_1990_AUS_5km_EnviroSuit),
+    downsample = 2) +
   scale_fill_gradientn(name="Suitability",
                        limits = c(0, 100),
                        colors = c("white","#83edcb", "#3592a5","#073e55","#fe8901"),
-                       values = c(0,0.25,0.5, 0.75,1))+  
-  theme_bw() + 
-  xlab("Longitude") +
-  ylab("Latitude") +
+                       values = c(0,0.25,0.5, 0.75,1), 
+                       na.value = alpha("#c5d5e3", 0))+  
+  geom_sf(data = states_gda94_sub, fill = alpha("white", 0), colour = "black") +
+  theme_bw(base_size = 16) +
+  scale_x_continuous(limits = c(141,151), expand = c(0, 0)) +
+  scale_y_continuous(limits = c(-9.5,-24), expand = c(0, 0)) +
+  labs(x="Longitude", y="Latitude", color = "Legend") +
+  theme(plot.background = element_rect(fill = "white"), 
+        panel.background = element_rect(fill = "#c5d5e3", colour="black"))+
+  annotation_north_arrow(location = "tr", style = north_arrow_fancy_orienteering)+
+  annotation_scale(location = "bl", width_hint = 0.2, height_hint = 0.02, text_engine = "latex")
+  
+ggsave(paste0(current_directory,"figure_3a.png"), width=8.9, height=8.9, units="cm")
+
+# 2030 Suitability RCP 8.5-SSP5 Suitability Plot
+ggplot() +
+  geom_stars(
+    data = future2030_stars_proj,
+    aes(fill = Casuarius_casuarius_GCM.Ensembles_ssp585_2030_AUS_5km_EnviroSuit_1),
+    downsample = 2) +
+  scale_fill_gradientn(name="Suitability",
+                       limits = c(0, 100),
+                       colors = c("white","#83edcb", "#3592a5","#073e55","#fe8901"),
+                       values = c(0,0.25,0.5, 0.75,1), 
+                       na.value = alpha("#c5d5e3", 0))+  
+  geom_sf(data = states_gda94_sub, fill = alpha("white", 0), colour = "black")+
+  theme_bw(base_size = 16) +
+  scale_x_continuous(limits = c(141,151), expand = c(0, 0)) +
+  scale_y_continuous(limits = c(-9.5,-24), expand = c(0, 0)) +
+  labs(x="Longitude", y="Latitude", color = "Legend") +
   theme(plot.background = element_rect(fill = "white"), 
         panel.background = element_rect(fill = "#c5d5e3", colour="black"))
 
-#save out the data
-ggsave(paste0(current_directory,"figure_4.png"), width=8.9, height=8.9, units="cm")
+ggsave(paste0(current_directory,"figure_3b.png"), width=8.9, height=8.9, units="cm")
 
-# End: Slight adjustments labels were done outside of R
+# 2090 Suitability RCP 8.5-SSP5 Suitability Plot
+
+ggplot() +
+  geom_stars(
+    data = future2090_stars_proj,
+    aes(fill = Casuarius_casuarius_GCM.Ensembles_ssp585_2090_AUS_5km_EnviroSuit_1),
+    downsample = 2) +
+  scale_fill_gradientn(name="Suitability",
+                       limits = c(0, 100),
+                       colors = c("white","#83edcb", "#3592a5","#073e55","#fe8901"),
+                       values = c(0,0.25,0.5, 0.75,1), 
+                       na.value = alpha("#c5d5e3", 0))+  
+  geom_sf(data = states_gda94_sub, fill = alpha("white", 0), colour = "black")+
+  theme_bw(base_size = 16) +
+  scale_x_continuous(limits = c(141,151), expand = c(0, 0)) +
+  scale_y_continuous(limits = c(-9.5,-24), expand = c(0, 0)) +
+  labs(x="Longitude", y="Latitude", color = "Legend") +
+  theme(plot.background = element_rect(fill = "white"), 
+        panel.background = element_rect(fill = "#c5d5e3", colour="black"))
+
+ggsave(paste0(current_directory,"figure_3c.png"), width=8.9, height=8.9, units="cm")
+
+# 3. Graph data #####
+
+# Load the csv data for the species
+csv <- read_csv(current_directory, pattern="*Quality-weighted-area-summary-all-species_AUS.csv*") %>%  # To make this graph you can use the species summary sheet, or the sheet with all species
+  filter(Species == "Casuarius casuarius", `Projection type` %in% c("mean",NA),`Climate scenario`%in% c("historical","ssp585"))
+
+csv$`Projection type`<- "mean"
+
+ggplot(data=csv, aes(x=Year, y=`Quality weighted area (km2)`)) +
+  geom_line(linetype="solid", color="#2b9d8f", linewidth=0.5)+
+  geom_point(color="#2b9d8f", size=4)+
+  scale_x_continuous(breaks=c(1990,2030,2050,2070,2090))+
+  theme_bw(base_size = 18)
+
+cust_pal <- c("#2b9d8f", "#2b9d8f", "#f2f2f2", "#f2f2f2", "#2b9d8f")
+
+ggplot(data=csv, aes(x=Year, y=`Quality weighted area (km2)`)) +
+  geom_col(fill=cust_pal, colour = "#b9b9b9")+
+  scale_x_continuous(breaks=c(1990,2030,2050,2070,2090))+
+  theme_bw(base_size = 18)
+
+# End: Panel arrangement was done outside of R
+
