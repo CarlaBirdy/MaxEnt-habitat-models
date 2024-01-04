@@ -3,7 +3,7 @@ Companion repository for the analysis of "Habitat suitability maps for Australia
 
 The source data for the climate scenarios can be found on the WorldClim website here: https://www.worldclim.org/. The source data for the species data can be found on the Atlas of Living Australia website here: https://www.ala.org.au/. The species habitat models will also be hosted open open-access GigaDB, found here: 
 
-Archibald CL; Summers DM; Graham EM; Bryan BA. Supporting data for "Habitat suitability maps for Australian flora and fauna under CMIP6 climate scenarios" GigaScience Database 2023. http://dx.doi.org/10.5524/102491
+Archibald CL; Summers DM; Graham EM; Bryan BA. Supporting data for "Habitat suitability maps for Australian flora and fauna under CMIP6 climate scenarios" GigaScience Database 2023. [![DOI:10.5524/102491](http://img.shields.io/badge/DOI-10.5524/102491-2b9242.svg)]((http://dx.doi.org/10.5524/102491))
 
 This repository contains all code and documentation which was used to produce the:
 1. Code to pre-process climate data and species data
@@ -16,4 +16,3 @@ The majority of this analysis was submitted to a Linux (virtual machine) cluster
 Figure: Graphical abstract
 
 This analysis was done as a part of the @land-use-trade-offs project.
-[![DOI:10.5524/102491](http://img.shields.io/badge/DOI-10.5524/102491-2b9242.svg)]((http://dx.doi.org/10.5524/102491))
