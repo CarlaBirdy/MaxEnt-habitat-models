@@ -19,6 +19,7 @@ MaxEnt models were projected onto the future climate scenarios SPP1-RCP2.6, SSP2
 R statistical software was used to write one shell file per specie. Species shell files were then run on a high-performance cluster. The majority of this analysis was submitted to a Linux (virtual machine) cluster computer using a SLURM Queue Manager. Each Server Node has: E5-2680v3 @2.50Ghz (or slightly better), 12 Cores, 70Gb.
 
 <img width="883" alt="Figure_1" src="https://github.com/CarlaBirdy/MaxEnt-habitat-models/assets/19372004/ca221048-2a76-4eae-aaee-f4593737e4da">
+
 Figure: Schematic of the workflow
 
 ## Key References
