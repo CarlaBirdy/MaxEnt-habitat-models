@@ -1,5 +1,5 @@
 ############################################################################################
-#    Species level summary for maxent models
+#    Figure 4: Species level summary for maxent models
 #    By: Carla Archibald
 #    Date: 01/03/23
 ############################################################################################
@@ -27,51 +27,26 @@ current_directory <- getwd()  # Get the current working directory, this should b
 current_directory             # Print the current working directory path
 
 # select which species to map
-
-taxa <- "plants" # "mammals" # "amphibians" "birds", "reptiles", "mammals", "plants"
-species <-  "Eucalyptus_pauciflora" # "Macropus_rufus" #"Notaden_bennettii" # "Notaden_melanoscaphus"# "Macropus_rufus" # "Pardalotus_punctatus" 
+taxa <- "mammals"# "amphibians" "birds", "reptiles", "mammals", "plants"
+species <-  "Macropus_rufus" # species name
 
 # set file paths
 sp_wd <- paste0(current_directory,"/",taxa,"/",species)
 out_wd <- current_directory
-
+ 
 # 3. read in data #####
 
-# Read raster data for historical data
-historic <- raster(paste0(sp_wd,"/",species,"_historic_baseline_1990_AUS_5km_EnviroSuit.tif"))
-names(historic) <- "Historical-Suitability"
+# Read raster data for the MAX prediction of future climate projections for different scenarios and time periods
+future2090_ssp126_max <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp126_2090_AUS_5km_EnviroSuit_max.tif"))
+names(future2090_ssp126_max) <- "RCP1-SSP2.6_Maximum"
+future2090_ssp245_max <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp245_2090_AUS_5km_EnviroSuit_max.tif"))
+names(future2090_ssp245_max) <- "RCP2-SSP4.5_Maximum"
+future2090_ssp370_max <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp370_2090_AUS_5km_EnviroSuit_max.tif"))
+names(future2090_ssp370_max) <- "RCP3-SSP7.0_Maximum"
+future2090_ssp585_max <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp585_2090_AUS_5km_EnviroSuit_max.tif"))
+names(future2090_ssp585_max) <- "RCP5-SSP8.5_Maximum"
 
-# Read raster data for the 2030 prediction of future climate projections for different scenarios
-future2030_ssp126_mean <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp126_2030_AUS_5km_EnviroSuit.tif"))
-names(future2030_ssp126_mean) <- "RCP1-SSP2.6_Mean"
-future2030_ssp245_mean <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp245_2030_AUS_5km_EnviroSuit.tif"))
-names(future2030_ssp245_mean) <- "RCP2-SSP4.5_Mean"
-future2030_ssp370_mean <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp370_2030_AUS_5km_EnviroSuit.tif"))
-names(future2030_ssp370_mean) <- "RCP3-SSP7.0_Mean"
-future2030_ssp585_mean <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp585_2030_AUS_5km_EnviroSuit.tif"))
-names(future2030_ssp585_mean) <- "RCP5-SSP8.5_Mean"
-
-# Read raster data for the 2050 prediction of future climate projections for different scenarios
-future2050_ssp126_mean <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp126_2050_AUS_5km_EnviroSuit.tif"))
-names(future2050_ssp126_mean) <- "RCP1-SSP2.6_Mean"
-future2050_ssp245_mean <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp245_2050_AUS_5km_EnviroSuit.tif"))
-names(future2050_ssp245_mean) <- "RCP2-SSP4.5_Mean"
-future2050_ssp370_mean <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp370_2050_AUS_5km_EnviroSuit.tif"))
-names(future2050_ssp370_mean) <- "RCP3-SSP7.0_Mean"
-future2050_ssp585_mean <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp585_2050_AUS_5km_EnviroSuit.tif"))
-names(future2050_ssp585_mean) <- "RCP5-SSP8.5_Mean"
-
-# Read raster data for the 2070 prediction of future climate projections for different scenarios
-future2070_ssp126_mean <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp126_2070_AUS_5km_EnviroSuit.tif"))
-names(future2070_ssp126_mean) <- "RCP1-SSP2.6_Mean"
-future2070_ssp245_mean <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp245_2070_AUS_5km_EnviroSuit.tif"))
-names(future2070_ssp245_mean) <- "RCP2-SSP4.5_Mean"
-future2070_ssp370_mean <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp370_2070_AUS_5km_EnviroSuit.tif"))
-names(future2070_ssp370_mean) <- "RCP3-SSP7.0_Mean"
-future2070_ssp585_mean <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp585_2070_AUS_5km_EnviroSuit.tif"))
-names(future2070_ssp585_mean) <- "RCP5-SSP8.5_Mean"
-
-# Read raster data for the 2090 prediction of future climate projections for different scenarios
+# Read raster data for the MEAN prediction of future climate projections for different scenarios and time periods
 future2090_ssp126_mean <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp126_2090_AUS_5km_EnviroSuit.tif"))
 names(future2090_ssp126_mean) <- "RCP1-SSP2.6_Mean"
 future2090_ssp245_mean <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp245_2090_AUS_5km_EnviroSuit.tif"))
@@ -81,174 +56,94 @@ names(future2090_ssp370_mean) <- "RCP3-SSP7.0_Mean"
 future2090_ssp585_mean <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp585_2090_AUS_5km_EnviroSuit.tif"))
 names(future2090_ssp585_mean) <- "RCP5-SSP8.5_Mean"
 
-# --- Refugia calculations and mapping
+# Read raster data for the MIN prediction of future climate projections for different scenarios and time periods
+future2090_ssp126_min <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp126_2090_AUS_5km_EnviroSuit_min.tif"))
+names(future2090_ssp126_min) <- "RCP1-SSP2.6_Minimum"
+future2090_ssp245_min <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp245_2090_AUS_5km_EnviroSuit_min.tif"))
+names(future2090_ssp245_min) <- "RCP2-SSP4.5_Minimum"
+future2090_ssp370_min <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp370_2090_AUS_5km_EnviroSuit_min.tif"))
+names(future2090_ssp370_min) <- "RCP3-SSP7.0_Minimum"
+future2090_ssp585_min <- raster(paste0(sp_wd,"/",species,"_GCM-Ensembles_ssp585_2090_AUS_5km_EnviroSuit_min.tif"))
+names(future2090_ssp585_min) <- "RCP5-SSP8.5_Minimum"
 
-# Calculate refugia between historic and 2030
-refugia2030_ssp126_mean <- (future2030_ssp126_mean * historic)/100
-names(refugia2030_ssp126_mean) <- "RCP1-SSP2.6_2030"
-refugia2030_ssp245_mean <- (future2030_ssp245_mean * historic)/100
-names(refugia2030_ssp245_mean) <- "RCP2-SSP4.5_2030"
-refugia2030_ssp370_mean <- (future2030_ssp370_mean * historic)/100
-names(refugia2030_ssp370_mean) <- "RCP3-SSP7.0_2030"
-refugia2030_ssp585_mean <- (future2030_ssp585_mean * historic)/100
-names(refugia2030_ssp585_mean) <- "RCP5-SSP8.5_2030"
-
-# Calculate refugia between 2030 and 2050
-refugia2050_ssp126_mean <- (future2050_ssp126_mean * future2030_ssp126_mean)/100
-names(refugia2050_ssp126_mean) <- "RCP1-SSP2.6_2050"
-refugia2050_ssp245_mean <- (future2050_ssp245_mean * future2030_ssp245_mean)/100
-names(refugia2050_ssp245_mean) <- "RCP2-SSP4.5_2050"
-refugia2050_ssp370_mean <- (future2050_ssp370_mean * future2030_ssp370_mean)/100
-names(refugia2050_ssp370_mean) <- "RCP3-SSP7.0_2050"
-refugia2050_ssp585_mean <- (future2050_ssp585_mean * future2030_ssp585_mean)/100
-names(refugia2050_ssp585_mean) <- "RCP5-SSP8.5_2050"
-
-# Calculate refugia between 2050 and 2070
-refugia2070_ssp126_mean <- (future2070_ssp126_mean * future2050_ssp126_mean)/100
-names(refugia2070_ssp126_mean) <- "RCP1-SSP2.6_2070"
-refugia2070_ssp245_mean <- (future2070_ssp245_mean* future2050_ssp245_mean)/100
-names(refugia2070_ssp245_mean) <- "RCP2-SSP4.5_2070"
-refugia2070_ssp370_mean <- (future2070_ssp370_mean  * future2050_ssp370_mean)/100
-names(refugia2070_ssp370_mean) <- "RCP3-SSP7.0_2070"
-refugia2070_ssp585_mean <- (future2070_ssp585_mean * future2050_ssp585_mean)/100
-names(refugia2070_ssp585_mean) <- "RCP5-SSP8.5_2070"
-
-# Calculate refugia between 2070 and 2090
-refugia2090_ssp126_mean <- (future2090_ssp126_mean * future2070_ssp126_mean)/100
-names(refugia2090_ssp126_mean) <- "RCP1-SSP2.6_2090"
-refugia2090_ssp245_mean <- (future2090_ssp245_mean* future2070_ssp245_mean)/100
-names(refugia2090_ssp245_mean) <- "RCP2-SSP4.5_2090"
-refugia2090_ssp370_mean <- (future2090_ssp370_mean  * future2070_ssp370_mean)/100
-names(refugia2090_ssp370_mean) <- "RCP3-SSP7.0_2090"
-refugia2090_ssp585_mean <- (future2090_ssp585_mean * future2070_ssp585_mean)/100
-names(refugia2090_ssp585_mean) <- "RCP5-SSP8.5_2090"
-
-# Stack the 2050 and 2090 the raster layers together
-refugiaRas <- stack(refugia2050_ssp126_mean, refugia2050_ssp245_mean, refugia2050_ssp370_mean, refugia2050_ssp585_mean,
-                    refugia2090_ssp126_mean, refugia2090_ssp245_mean, refugia2090_ssp370_mean, refugia2090_ssp585_mean)
+# Stack all the raster layers together
+stackRas <- stack(future2090_ssp126_min,future2090_ssp245_min,future2090_ssp370_min,future2090_ssp585_min,
+                  future2090_ssp126_mean,future2090_ssp245_mean,future2090_ssp370_mean,future2090_ssp585_mean,
+                  future2090_ssp126_max,future2090_ssp245_max,future2090_ssp370_max,future2090_ssp585_max)
 
 # Set the Coordinate Reference System (CRS) for the stacked raster
-crs(refugiaRas) <- CRS("+init=epsg:4283")
+crs(stackRas) <- CRS("+init=epsg:4283")
 
 # 4. data manipulation and mapping
 
 # Convert the stacked raster to a long-format data frame, removing NA values
-raster_refugia_long_df <-
-  as.data.frame(refugiaRas, xy = TRUE) %>%
+raster_long_df <-
+  as.data.frame(stackRas, xy = TRUE) %>%
   na.omit()%>%
   pivot_longer(
     c(-x, -y),
     names_to = "map",
-    values_to = "refugia")%>%
+    values_to = "suitability")%>%
   dplyr::mutate(scenario = str_replace(map, "_.*", "")) %>%
-  dplyr::mutate(year = str_remove(map, ".*_")) %>%
-  dplyr::mutate(year = str_remove(year, "(_[0-9]+)?\\..*$"))
-
-
+  dplyr::mutate(projection = str_remove(map, ".*_"))
+  
 # Create a plot using ggplot to visualize the data
 ggplot() +
-  geom_raster(data = raster_refugia_long_df, aes(x = x, y = y, fill = refugia)) +
-  facet_grid(year~scenario , switch = "y") +
-  scale_fill_gradientn(name="Refugia",
+  geom_raster(data = raster_long_df, aes(x = x, y = y, fill = suitability)) +
+  facet_grid(projection ~ scenario, switch = "y") +
+  coord_equal() +
+  scale_fill_gradientn(name="Suitability",
                        limits = c(0, 100),
-                       colors = c("white","#83edcb","#073e55"), #"#009587","#009587"
-                       values = c(0,0.5,1))+
-  theme_bw(base_size = 16) +
-  coord_cartesian(xlim = c(145,153), ylim = c(-40,-30))+
+                       colors = c("white","#83edcb", "#3592a5","#073e55","#fe8901"),
+                       values = c(0,0.25,0.5, 0.75,1))+  
+  theme_bw() + 
   xlab("Longitude") +
   ylab("Latitude") +
   theme(plot.background = element_rect(fill = "white"), 
-        panel.background = element_rect(fill = "#c5d5e3", colour="black"),
-        legend.position = "right",
-        legend.justification = "center",
-        legend.box = "horizontal")
+        panel.background = element_rect(fill = "#c5d5e3", colour="black"))
 
-# save out the data
-ggsave(paste0(current_directory,"figure_5a.png"), width=8.9, height=8.9, units="cm")
-
-# --- Difference calculations and mapping
-
-# Calculate the difference between historic and 2030
-diff2030_ssp126_mean <- (future2030_ssp126_mean - historic)
-names(diff2030_ssp126_mean) <- "RCP1-SSP2.6_2030"
-diff2030_ssp245_mean <- (future2030_ssp245_mean - historic)
-names(diff2030_ssp245_mean) <- "RCP2-SSP4.5_2030"
-diff2030_ssp370_mean <- (future2030_ssp370_mean - historic)
-names(diff2030_ssp370_mean) <- "RCP3-SSP7.0_2030"
-diff2030_ssp585_mean <- (future2030_ssp585_mean - historic)
-names(diff2030_ssp585_mean) <- "RCP5-SSP8.5_2030"
-
-# Calculate the difference between historic and 2050
-diff2050_ssp126_mean <- (future2050_ssp126_mean - historic)
-names(diff2050_ssp126_mean) <- "RCP1-SSP2.6_2050"
-diff2050_ssp245_mean <- (future2050_ssp245_mean - historic)
-names(diff2050_ssp245_mean) <- "RCP2-SSP4.5_2050"
-diff2050_ssp370_mean <- (future2050_ssp370_mean - historic)
-names(diff2050_ssp370_mean) <- "RCP3-SSP7.0_2050"
-diff2050_ssp585_mean <- (future2050_ssp585_mean - historic)
-names(diff2050_ssp585_mean) <- "RCP5-SSP8.5_2050"
-
-# Calculate the difference between historic and 2070
-diff2070_ssp126_mean <- (future2070_ssp126_mean - historic)
-names(diff2070_ssp126_mean) <- "RCP1-SSP2.6_2070"
-diff2070_ssp245_mean <- (future2070_ssp245_mean - historic)
-names(diff2070_ssp245_mean) <- "RCP2-SSP4.5_2070"
-diff2070_ssp370_mean <- (future2070_ssp370_mean - historic)
-names(diff2070_ssp370_mean) <- "RCP3-SSP7.0_2070"
-diff2070_ssp585_mean <- (future2070_ssp585_mean - historic)
-names(diff2070_ssp585_mean) <- "RCP5-SSP8.5_2070"
-
-# Calculate the difference between historic and 2090
-diff2090_ssp126_mean <- (future2090_ssp126_mean - historic)
-names(diff2090_ssp126_mean) <- "RCP1-SSP2.6_2090"
-diff2090_ssp245_mean <- (future2090_ssp245_mean - historic)
-names(diff2090_ssp245_mean) <- "RCP2-SSP4.5_2090"
-diff2090_ssp370_mean <- (future2090_ssp370_mean - historic)
-names(diff2090_ssp370_mean) <- "RCP3-SSP7.0_2090"
-diff2090_ssp585_mean <- (future2090_ssp585_mean - historic)
-names(diff2090_ssp585_mean) <- "RCP5-SSP8.5_2090"
-
-# Stack the 2050 and 2090 raster layers together
-diffRas <- stack(diff2050_ssp126_mean, diff2050_ssp245_mean, diff2050_ssp370_mean, diff2050_ssp585_mean,
-                 diff2090_ssp126_mean, diff2090_ssp245_mean, diff2090_ssp370_mean, diff2090_ssp585_mean)
-
-# Set the Coordinate Reference System (CRS) for the stacked raster
-crs(diffRas) <- CRS("+init=epsg:4283")
-
-# Convert the stacked raster to a long-format data frame, removing NA values
-raster_diff_long_df <-
-  as.data.frame(diffRas, xy = TRUE) %>%
-  na.omit()%>%
-  pivot_longer(
-    c(-x, -y),
-    names_to = "map",
-    values_to = "change")%>%
-  dplyr::mutate(scenario = str_replace(map, "_.*", "")) %>%
-  dplyr::mutate(year = str_remove(map, ".*_")) %>%
-  dplyr::mutate(year = str_remove(year, "(_[0-9]+)?\\..*$"))
+#save out the data
+ggsave(paste0(current_directory,"figure_4.png"), width=8.9, height=8.9, units="cm")
 
 
-# Create a plot using ggplot to visualize the data
-ggplot() +
-  geom_raster(data = raster_diff_long_df, aes(x = x, y = y, fill = change)) +
-  facet_grid(year~scenario , switch = "y") +
-  scale_fill_gradient2(name="Change",
-                       limits = c(-100, 100),
-                       low = "#c71e1d",
-                       mid = c("#FF6A00","white","#83edcb"),
-                       high = "#073e55",
-                       midpoint = 0) + # #25897c
-  theme_bw(base_size = 16) + 
-  coord_cartesian(xlim = c(145,153), ylim = c(-40,-30))+
-  xlab("Longitude") +
-  ylab("Latitude") +
-  theme(plot.background = element_rect(fill = "white"), 
-        panel.background = element_rect(fill = "#c5d5e3", colour="black"),
-        legend.position = "right",
-        legend.justification = "center",
-        legend.box = "horizontal")
+# 5. Graphing
 
-# save out the data
-ggsave(paste0(current_directory,"figure_5b.png"), width=8.9, height=8.9, units="cm")
+csv <- read_csv(current_directory, pattern="*Quality-weighted-area-summary-all-species_AUS.csv*") %>%  # To make this graph you can use the species summary sheet, or the sheet with all species
+  filter(Species == species, `Projection type` %in% c("mean",NA),`Climate scenario`%in% c("historical","ssp585"))
+
+csv_wide <- csv %>%
+  pivot_wider(names_from = `Projection type`, values_from = "Quality weighted area (km2)")%>%
+  dplyr::select("Taxon","Species","Climate scenario","Year","min","mean","max")%>%
+  filter(Year != 1990)
+
+
+csv_min <- csv %>%
+  filter(Species == "Macropus rufus", `Projection type`== "min")
+
+csv_mean <- csv %>%
+  filter(Species == "Macropus rufus", `Projection type`== "mean")
+
+csv_max <- csv %>%
+  filter(Species == "Macropus rufus", `Projection type`== "max")
+
+ggplot(data=csv_mean, aes(x=Year, y=`Quality weighted area (km2)`, group =`Climate scenario`)) +
+  geom_line(aes(color=`Climate scenario`), linetype="solid", linewidth=0.5)+
+  geom_point(aes(color=`Climate scenario`),size=4)+
+  scale_x_continuous(breaks=c(2030,2050,2070,2090))+
+  theme_bw()
+
+
+ssp_pal <- c("#2F8FCE", "#114A76", "#DF9239","#CB503A")
+
+ggplot(data = csv_wide, aes(x = Year, y = mean, group = `Climate scenario`)) +
+  geom_ribbon(aes(x = Year, ymax = max, ymin = min, fill = `Climate scenario`), alpha = 0.1, color = NA) +
+  geom_line(aes(color = `Climate scenario`), linetype = "solid", linewidth = 0.5) +
+  geom_point(aes(color = `Climate scenario`), size = 4) +
+  facet_wrap(~`Climate scenario`, nrow = 1) +
+  scale_x_continuous(breaks = c(2030, 2050, 2070, 2090)) +
+  scale_fill_manual(values = ssp_pal) +  # Color for ribbons
+  scale_color_manual(values = ssp_pal) +  # Color for lines and points
+  theme_bw(base_size = 16)
+
 
 # End: Slight adjustments labels were done outside of R
