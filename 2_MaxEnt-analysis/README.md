@@ -10,7 +10,7 @@ MaxEnt models were fitted as a part of the CliMAS project by Erin Graham and JCU
 
 For the model validation, the AUC value was calculated as a part of the MaxEnt procedure, and the Boyce Index was calculated post hoc. Both values are summarised in the manuscript. 
 
-![bci_auc_figure](https://github.com/CarlaBirdy/MaxEnt-habitat-models/assets/19372004/2038e74b-8b1b-4b80-9c1e-0e6d823d1a96)
+![Figure_3](https://github.com/CarlaBirdy/MaxEnt-habitat-models/assets/19372004/87e81dcf-476a-4dce-8968-d1f6bba92936)
 Figure: Scatter plot between AUC and BI values for species models
 
 ## Workflow
