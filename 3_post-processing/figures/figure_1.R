@@ -1,5 +1,5 @@
 ############################################################################################
-#    Figure 1: Create workflow for Maxent modelling procedure
+#    Figure 1: Create a workflow for Maxent modelling procedure
 #    By: Carla Archibald
 #    Date: 01/03/23
 ############################################################################################
