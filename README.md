@@ -16,4 +16,4 @@ The majority of this analysis was submitted to a Linux (virtual machine) cluster
 Figure: Graphical abstract
 
 This analysis was done as a part of the @land-use-trade-offs project.
-[![DOI:10.5524/102491](http://img.shields.io/badge/DOI-10.5524/102491-#2c7cbd.svg)]((http://dx.doi.org/10.5524/102491))
+[![DOI:10.5524/102491](http://img.shields.io/badge/DOI-10.5524/102491-2b9242.svg)]((http://dx.doi.org/10.5524/102491))
